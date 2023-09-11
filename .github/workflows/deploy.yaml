@@ -14,7 +14,7 @@ jobs:
       #     fetch-depth: 0
       
       - id: script
-        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@v1.0.3
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
