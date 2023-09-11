@@ -1,0 +1,17 @@
+name: Demo CI/CD
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - id: script
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@v1
