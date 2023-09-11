@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      # - uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
       
       - id: script
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@v1.0.0
+
