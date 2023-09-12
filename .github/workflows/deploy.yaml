@@ -21,7 +21,8 @@ jobs:
       #   with:
       #     fetch-depth: 0
       
-      - id: container-image
+      - name: container image creation
+        id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -32,11 +33,13 @@ jobs:
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+
   staging:
     if: startsWith(github.event.ref, 'refs/tags/lkgba')
     runs-on: ubuntu-latest
     steps:  
-      - id: staging
+      - name: container image creation
+        id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -52,7 +55,8 @@ jobs:
     if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:  
-      - id: production
+      - name: container image creation
+        id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -61,13 +65,13 @@ jobs:
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "production"
-          ecr_registry: "production"
+          ecr_registry: "production-registry"
           image_tag: ${IMAGE_TAG}
   
-  outputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: output vars
-        run: |
-          echo ${{  github.ref_name }}
-        shell: bash
+  # outputs:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: output vars
+  #       run: |
+  #         echo ${{  github.ref_name }}
+  #       shell: bash
