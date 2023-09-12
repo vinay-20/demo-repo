@@ -33,7 +33,7 @@ jobs:
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
   staging:
-    if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
+    if: startsWith(github.event.ref, 'refs/tags/lkgba')
     runs-on: ubuntu-latest
     steps:  
       - id: staging
@@ -49,7 +49,7 @@ jobs:
           image_tag: ${IMAGE_TAG}
 
   production:
-    if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
+    if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:  
       - id: production
@@ -71,4 +71,3 @@ jobs:
         run: |
           echo ${{  github.ref_name }}
         shell: bash
-        
