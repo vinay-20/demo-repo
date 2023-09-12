@@ -33,6 +33,9 @@ jobs:
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+      - name: Sleep for 2 minutes
+        run: sleep 120s
+        shell: bash
         
       - name: application deployment.
         id: application-deployment
@@ -46,6 +49,9 @@ jobs:
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+      - name: Sleep for 1 minute
+        run: sleep 60s
+        shell: bash        
 
       - name: application deployment sync.
         id: application-deployment-sync
