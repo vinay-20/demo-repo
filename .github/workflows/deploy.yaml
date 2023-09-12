@@ -9,6 +9,8 @@ on:
 
 # on:
 #   pull_request:
+env:
+  IMAGE_TAG: ${{  github.ref_name }}
 
 jobs:
   run-script:
@@ -29,6 +31,7 @@ jobs:
           service_name: "dev-okrs-api"
           environment: "development"
           ecr_registry: "dev-registry"
+          image_tag: "lkgb"
         if: ${{  github.ref_name }} == 'main'
 
       - id: staging
@@ -41,6 +44,7 @@ jobs:
           service_name: "dev-okrs-api"
           environment: "staging"
           ecr_registry: "staging-registry"
+          image_tag: ${IMAGE_TAG}
         if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
 
       - id: production
@@ -53,4 +57,5 @@ jobs:
           service_name: "dev-okrs-api"
           environment: "production"
           ecr_registry: "production"
+          image_tag: ${IMAGE_TAG}
         if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
