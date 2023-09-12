@@ -21,8 +21,34 @@ jobs:
       #   with:
       #     fetch-depth: 0
       
-      - name: container image creation
+      - name: creating container image.
         id: container-image
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          #service_name: ${{ github.event.repository.name }}
+          service_name: "dev-okrs-api"
+          environment: "development"
+          ecr_registry: "dev-registry"
+          image_tag: "lkgb"
+        
+      - name: application deployment.
+        id: application deployment
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          #service_name: ${{ github.event.repository.name }}
+          service_name: "dev-okrs-api"
+          environment: "development"
+          ecr_registry: "dev-registry"
+          image_tag: "lkgb"
+
+      - name: application deployment sync.
+        id: application deployment sync
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -38,7 +64,7 @@ jobs:
     if: startsWith(github.event.ref, 'refs/tags/lkgba')
     runs-on: ubuntu-latest
     steps:  
-      - name: container image creation
+      - name: creating container image.
         id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
@@ -55,7 +81,7 @@ jobs:
     if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:  
-      - name: container image creation
+      - name: creating container image.
         id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
         with:
