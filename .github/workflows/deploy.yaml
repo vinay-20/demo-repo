@@ -25,9 +25,10 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          service_name: ${{ github.event.repository.name }}
+          #service_name: ${{ github.event.repository.name }}
+          service_name: "dev-okrs-api"
           environment: "development"
-          ecr_repository: "dev-registry"
+          ecr_registry: "dev-registry"
         if: ${{  github.ref_name }} == 'main'
 
       - id: staging
@@ -36,9 +37,10 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          service_name: ${{ github.event.repository.name }}
+          #service_name: ${{ github.event.repository.name }}
+          service_name: "dev-okrs-api"
           environment: "staging"
-          ecr_repository: "staging-registry"
+          ecr_registry: "staging-registry"
         if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
 
       - id: production
@@ -47,7 +49,8 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          service_name: ${{ github.event.repository.name }}
+          #service_name: ${{ github.event.repository.name }}
+          service_name: "dev-okrs-api"
           environment: "production"
-          ecr_repository: "production"
+          ecr_registry: "production"
         if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
