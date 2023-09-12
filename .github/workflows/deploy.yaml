@@ -3,7 +3,14 @@ on:
   push:
     branches:
       - main
-      
+    tags:
+      - lkgba_*.*.*
+      - v*.*.*
+
+on:
+  push:
+
+
 # on:
 #   pull_request:
 
