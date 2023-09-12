@@ -63,3 +63,11 @@ jobs:
           environment: "production"
           ecr_registry: "production"
           image_tag: ${IMAGE_TAG}
+  
+  outputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: output vars
+        run: |
+          echo ${{  github.ref_name }}
+        shell: bash
