@@ -14,6 +14,9 @@ env:
 
 jobs:
   development:
+    env:
+      aws_region: "us-west-2"
+
     if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -23,16 +26,19 @@ jobs:
       
       - name: creating container image.
         id: container-image
-        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/pv-deployer@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_region: ${aws_region}
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+          operation: "image_build"
+
       - name: Sleep for 2 minutes
         run: sleep 120s
         shell: bash
@@ -43,12 +49,15 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_region: ${aws_region}
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+          operation: "app_deploy"
+
       - name: Sleep for 1 minute
         run: sleep 60s
         shell: bash        
@@ -59,14 +68,19 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_region: ${aws_region}
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
+          operation: "app_deploy"
 
   staging:
+    env:
+      aws_region: "us-west-2"
+
     if: startsWith(github.event.ref, 'refs/tags/lkgba')
     runs-on: ubuntu-latest
     steps:  
@@ -77,13 +91,17 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_region: ${aws_region}
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "staging"
           ecr_registry: "staging-registry"
           image_tag: ${IMAGE_TAG}
 
-  production:
+  production_us_west_2:
+    env:
+      aws_region: "us-west-2"
+
     if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:  
@@ -93,12 +111,14 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws_region: ${aws_region}
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "production"
           ecr_registry: "production-registry"
           image_tag: ${IMAGE_TAG}
+          operation: "app_deploy"
   
   # outputs:
   #   runs-on: ubuntu-latest
