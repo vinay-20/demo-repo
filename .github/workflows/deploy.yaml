@@ -28,7 +28,7 @@ jobs:
           service_name: ${{ github.event.repository.name }}
           environment: "development"
           ecr_repository: "dev-registry"
-        if: $GITHUB_REF_NAME == 'main'
+        if: ${{  github.ref_name }} == 'main'
 
       - id: staging
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
@@ -39,7 +39,7 @@ jobs:
           service_name: ${{ github.event.repository.name }}
           environment: "staging"
           ecr_repository: "staging-registry"
-        if: startsWith($GITHUB_REF_NAME, 'refs/tags/lkgba')
+        if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
 
       - id: production
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
@@ -50,4 +50,4 @@ jobs:
           service_name: ${{ github.event.repository.name }}
           environment: "production"
           ecr_repository: "production"
-        if: startsWith($GITHUB_REF_NAME, 'refs/tags/v')
+        if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
