@@ -35,7 +35,7 @@ jobs:
           image_tag: "lkgb"
         
       - name: application deployment.
-        id: application deployment
+        id: application-deployment
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -48,7 +48,7 @@ jobs:
           image_tag: "lkgb"
 
       - name: application deployment sync.
-        id: application deployment sync
+        id: application-deployment-sync
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
