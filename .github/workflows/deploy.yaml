@@ -13,15 +13,15 @@ env:
   IMAGE_TAG: ${{  github.ref_name }}
 
 jobs:
-  run-script:
+  development:
+    if: ${{  github.ref_name }} == 'main'
     runs-on: ubuntu-latest
-
     steps:
       # - uses: actions/checkout@v2
       #   with:
       #     fetch-depth: 0
       
-      - id: development
+      - id: container-image
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -32,8 +32,10 @@ jobs:
           environment: "development"
           ecr_registry: "dev-registry"
           image_tag: "lkgb"
-        if: ${{  github.ref_name }} == 'main'
-
+  staging:
+    if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
+    runs-on: ubuntu-latest
+    steps:  
       - id: staging
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
@@ -45,8 +47,11 @@ jobs:
           environment: "staging"
           ecr_registry: "staging-registry"
           image_tag: ${IMAGE_TAG}
-        if: startsWith(${{  github.ref_name }}, 'refs/tags/lkgba')
 
+  production:
+    if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:  
       - id: production
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
         with:
@@ -58,4 +63,3 @@ jobs:
           environment: "production"
           ecr_registry: "production"
           image_tag: ${IMAGE_TAG}
-        if: startsWith(${{  github.ref_name }}, 'refs/tags/v')
