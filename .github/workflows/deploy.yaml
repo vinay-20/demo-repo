@@ -35,7 +35,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws_region: $aws_region
+          # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+          # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+          aws_region: "us-west-2" 
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
@@ -54,7 +56,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws_region: $aws_region
+          # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+          # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+          aws_region: "us-west-2" 
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
@@ -73,7 +77,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws_region: $aws_region
+          # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+          # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+          aws_region: "us-west-2" 
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "development"
@@ -94,7 +100,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws_region: $aws_region
+          # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+          # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+          aws_region: "us-west-2" 
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "staging"
@@ -114,7 +122,9 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws_region: $aws_region
+          # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+          # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+          aws_region: "us-west-2" 
           #service_name: ${{ github.event.repository.name }}
           service_name: "dev-okrs-api"
           environment: "production"
