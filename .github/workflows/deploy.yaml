@@ -14,11 +14,10 @@ env:
 
 jobs:
   development:
-    env:
-      aws_region: "us-west-2"
-
     if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      aws_region: "us-west-2"
     steps:
       # - uses: actions/checkout@v2
       #   with:
@@ -78,11 +77,10 @@ jobs:
           operation: "app_deploy"
 
   staging:
-    env:
-      aws_region: "us-west-2"
-
     if: startsWith(github.event.ref, 'refs/tags/lkgba')
     runs-on: ubuntu-latest
+    env:
+      aws_region: "us-west-2"
     steps:  
       - name: creating container image.
         id: container-image
@@ -99,11 +97,10 @@ jobs:
           image_tag: ${IMAGE_TAG}
 
   production_us_west_2:
-    env:
-      aws_region: "us-west-2"
-
     if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    env:
+      aws_region: "us-west-2"
     steps:  
       - name: creating container image.
         id: container-image
