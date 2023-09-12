@@ -19,16 +19,35 @@ jobs:
       #   with:
       #     fetch-depth: 0
       
-      - id: script
+      - id: development
         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          #service_name: ${{ github.event.repository.name }}
-          service_name: "dev-okrs-api"
-      
-      - name: outputs
-        run: |
-          echo ${{ github.event.repository.name }}
+          service_name: ${{ github.event.repository.name }}
+          environment: "development"
+          ecr_repository: "dev-registry"
+        if: $GITHUB_REF_NAME == 'main'
 
+      - id: staging
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          service_name: ${{ github.event.repository.name }}
+          environment: "staging"
+          ecr_repository: "staging-registry"
+        if: startsWith($GITHUB_REF_NAME, 'refs/tags/lkgba')
+
+      - id: production
+        uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+          service_name: ${{ github.event.repository.name }}
+          environment: "production"
+          ecr_repository: "production"
+        if: startsWith($GITHUB_REF_NAME, 'refs/tags/v')
