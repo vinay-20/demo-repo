@@ -19,7 +19,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-          repository_name: "okrs-api"
+          repository_name: "dev-okrs-api"
       
       - name: outputs
         run: |
