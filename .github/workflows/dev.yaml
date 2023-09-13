@@ -9,13 +9,27 @@ on:
 jobs:
   setting_env_vars:
     runs-on: ubuntu-latest
+
+    outputs:
+      access_key: ${{ steps.access-key.outputs.AWS_ACCESS_KEY}}
+      secret_key: ${{ steps.access-key.outputs.AWS_SECRET_KEY}}
+      session_token: ${{ steps.access-key.outputs.AWS_SESSION_TOKEN}}
+
     steps:
-      - name: setting-environment-variables
-        id: env_vars
+      - name: setting-access-key
+        id: access-key
         run: |
-          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> "$GITHUB_ENV"
-          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> "$GITHUB_ENV"
-          echo "AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}" >> "$GITHUB_ENV"
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: setting-secret-key
+        id: secret-key
+        run: |
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: setting-session-token
+        id: session-token
+        run: |
+          echo "AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}" >> $GITHUB_OUTPUT
         shell: bash
       
       - name: outputs
@@ -27,11 +41,14 @@ jobs:
         shell: bash
 
   build-container-image:
+  
+    needs: setting_env_vars
+
     uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main   
     with:
-      aws_access_key: ${AWS_ACCESS_KEY}
-      aws_secret_key: ${AWS_SECRET_KEY}
-      aws_session_token: ${AWS_SESSION_TOKEN}
+      aws_access_key: ${{ needs.setting_env_vars.outputs.access_key }}
+      aws_secret_key: ${{ needs.setting_env_vars.outputs.secret_key }}
+      aws_session_token: ${{ needs.setting_env_vars.outputs.session_token }}
       # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
       # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
       aws_region: "us-west-2" 
