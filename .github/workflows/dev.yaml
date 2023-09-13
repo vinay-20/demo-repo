@@ -7,23 +7,25 @@ on:
 # on:
 #   pull_request:
 jobs:
-  outputs:
+  setting_env_vars:
     runs-on: ubuntu-latest
     steps:
-      - name: output vars
-        id: output
+      - name: setting-environment-variables
+        id: env_vars
         run: |
-          echo "ACCESS KEY in demo-app - ${AWS_ACCESS_KEY}"
-          echo "SECRET KEY in demo-app  - ${AWS_SECRET_KEY}"
-          echo "TOKEN in demo-app  - ${AWS_SESSION_TOKEN}"
+          echo "AWS_ACCESS_KEY=${secrets.AWS_ACCESS_KEY}" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_KEY=${secrets.AWS_SECRET_KEY}" >> "$GITHUB_ENV"
+          echo "AWS_SESSION_TOKEN=${secrets.AWS_SESSION_TOKEN}" >> "$GITHUB_ENV"
         shell: bash
+      
+      - name: outputs
+        run: |
+          echo "demo-app : ${AWS_ACCESS_KEY}"
+          echo "demo-app : ${AWS_SECRET_KEY}"
+          echo "demo-app : ${AWS_SESSION_TOKEN}"
 
   build-container-image:
-    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main
-    env:
-      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}    
+    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main   
     with:
       aws_access_key: ${AWS_ACCESS_KEY}
       aws_secret_key: ${AWS_SECRET_KEY}
