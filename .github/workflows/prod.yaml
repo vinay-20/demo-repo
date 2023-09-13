@@ -1,0 +1,141 @@
+# name: Demo CI/CD
+# on:
+#   push:
+#     branches:
+#       - main
+#     tags:
+#       - lkgba_*.*.*
+#       - v*.*.*
+
+# # on:
+# #   pull_request:
+# env:
+#   IMAGE_TAG: ${{  github.ref_name }}
+
+# jobs:
+#   development:
+#     if: github.event.ref == 'refs/heads/main'
+#     runs-on: ubuntu-latest
+#     env:
+#       aws_region: us-west-2
+#     steps:
+#       # - uses: actions/checkout@v2
+#       #   with:
+#       #     fetch-depth: 0
+
+#       - name: outputs
+#         run: |
+#           echo "AWS region in demo app - $aws_region"
+#         shell: bash
+      
+#       - name: creating container image.
+#         id: container-image
+#         uses: vinay-20/composite_actions/.github/pv-composite-actions/pv-deployer@main
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#           # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+#           # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+#           aws_region: "us-west-2" 
+#           #service_name: ${{ github.event.repository.name }}
+#           service_name: "dev-okrs-api"
+#           environment: "development"
+#           ecr_registry: "dev-registry"
+#           image_tag: "lkgb"
+#           operation: "image_build"
+
+#       - name: Sleep for 2 minutes
+#         run: sleep 120s
+#         shell: bash
+        
+#       - name: application deployment.
+#         id: application-deployment
+#         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#           # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+#           # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+#           aws_region: "us-west-2" 
+#           #service_name: ${{ github.event.repository.name }}
+#           service_name: "dev-okrs-api"
+#           environment: "development"
+#           ecr_registry: "dev-registry"
+#           image_tag: "lkgb"
+#           operation: "app_deploy"
+
+#       - name: Sleep for 1 minute
+#         run: sleep 60s
+#         shell: bash        
+
+#       - name: application deployment sync.
+#         id: application-deployment-sync
+#         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#           # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+#           # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+#           aws_region: "us-west-2" 
+#           #service_name: ${{ github.event.repository.name }}
+#           service_name: "dev-okrs-api"
+#           environment: "development"
+#           ecr_registry: "dev-registry"
+#           image_tag: "lkgb"
+#           operation: "app_deploy"
+
+#   staging:
+#     if: startsWith(github.event.ref, 'refs/tags/lkgba')
+#     runs-on: ubuntu-latest
+#     env:
+#       aws_region: "us-west-2"
+#     steps:  
+#       - name: creating container image.
+#         id: container-image
+#         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#           # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+#           # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+#           aws_region: "us-west-2" 
+#           #service_name: ${{ github.event.repository.name }}
+#           service_name: "dev-okrs-api"
+#           environment: "staging"
+#           ecr_registry: "staging-registry"
+#           image_tag: ${IMAGE_TAG}
+
+#   production_us_west_2:
+#     if: startsWith(github.event.ref, 'refs/tags/v')
+#     runs-on: ubuntu-latest
+#     env:
+#       aws_region: "us-west-2"
+#     steps:  
+#       - name: creating container image.
+#         id: container-image
+#         uses: vinay-20/composite_actions/.github/pv-composite-actions/container-image@main 
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#           # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+#           # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
+#           aws_region: "us-west-2" 
+#           #service_name: ${{ github.event.repository.name }}
+#           service_name: "dev-okrs-api"
+#           environment: "production"
+#           ecr_registry: "production-registry"
+#           image_tag: ${IMAGE_TAG}
+#           operation: "app_deploy"
+  
+#   # outputs:
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - name: output vars
+#   #       run: |
+#   #         echo ${{  github.ref_name }}
+#   #       shell: bash
