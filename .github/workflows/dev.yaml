@@ -19,10 +19,12 @@ jobs:
         shell: bash
       
       - name: outputs
+        id: outputs
         run: |
           echo "demo-app : ${AWS_ACCESS_KEY}"
           echo "demo-app : ${AWS_SECRET_KEY}"
           echo "demo-app : ${AWS_SESSION_TOKEN}"
+        shell: bash
 
   build-container-image:
     uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main   
