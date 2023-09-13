@@ -27,4 +27,3 @@ jobs:
       environment: "development"
       ecr_registry: "dev-registry"
       image_tag: "lkgb"
-      
