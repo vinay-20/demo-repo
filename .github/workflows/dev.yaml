@@ -13,9 +13,9 @@ jobs:
       - name: setting-environment-variables
         id: env_vars
         run: |
-          echo "AWS_ACCESS_KEY=${secrets.AWS_ACCESS_KEY}" >> "$GITHUB_ENV"
-          echo "AWS_SECRET_KEY=${secrets.AWS_SECRET_KEY}" >> "$GITHUB_ENV"
-          echo "AWS_SESSION_TOKEN=${secrets.AWS_SESSION_TOKEN}" >> "$GITHUB_ENV"
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> "$GITHUB_ENV"
+          echo "AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}" >> "$GITHUB_ENV"
         shell: bash
       
       - name: outputs
