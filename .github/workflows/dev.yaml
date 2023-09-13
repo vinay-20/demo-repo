@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-container-image:
-    uses: vinay-20/reusable_workflows/.github/workflows/image_builder@main
+    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main
     vars:
       aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
       aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
