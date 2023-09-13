@@ -13,6 +13,17 @@ env:
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
 
 jobs:
+  outputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: output vars
+        id: output
+        run: |
+          echo "ACCESS KEY in demo-app - ${AWS_ACCESS_KEY}"
+          echo "SECRET KEY in demo-app  - ${AWS_SECRET_KEY}"
+          echo "TOKEN in demo-app  - ${AWS_SESSION_TOKEN}"
+        shell: bash
+
   build-container-image:
     uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main
     with:
