@@ -35,9 +35,9 @@ jobs:
       - name: outputs
         id: outputs
         run: |
-          echo "demo-app : ${AWS_ACCESS_KEY}"
-          echo "demo-app : ${AWS_SECRET_KEY}"
-          echo "demo-app : ${AWS_SESSION_TOKEN}"
+          echo "demo-app : ${{ secrets.AWS_ACCESS_KEY }}"
+          echo "demo-app : ${{ secrets.AWS_SECRET_KEY }}"
+          echo "demo-app : ${{ secrets.AWS_SESSION_TOKEN }}"
         shell: bash
 
   build-container-image:
@@ -61,4 +61,3 @@ jobs:
       environment: "development"
       ecr_registry: "dev-registry"
       image_tag: "lkgb"
-      
