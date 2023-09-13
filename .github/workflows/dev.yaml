@@ -41,14 +41,18 @@ jobs:
         shell: bash
 
   build-container-image:
-  
+
     needs: setting_env_vars
 
-    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main   
+    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main
+    secrets:
+      aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+      aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+      aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
     with:
-      aws_access_key: ${{ needs.setting_env_vars.outputs.access_key }}
-      aws_secret_key: ${{ needs.setting_env_vars.outputs.secret_key }}
-      aws_session_token: ${{ needs.setting_env_vars.outputs.session_token }}
+      # aws_access_key: ${{ needs.setting_env_vars.outputs.access_key }}
+      # aws_secret_key: ${{ needs.setting_env_vars.outputs.secret_key }}
+      # aws_session_token: ${{ needs.setting_env_vars.outputs.session_token }}
       # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
       # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
       aws_region: "us-west-2" 
