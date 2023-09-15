@@ -1,93 +1,15 @@
-# name: CI/CD Development Environment
-# on:
-#   push:
-#     branches:
-#       - feature/*
-#       - main
-#     tags:
-#       - v*.*.*
-
-# env:
-#   aws_region: us-west-2
-
-# jobs:
-#   orchestrator:
-#     uses: vinay-20/reusable_workflows/.github/platforma-workflows/deployment-orchestrator.yaml@main
-
-#   # kubernetes_deployment:
-#   #   uses: vinay-20/reusable_workflows/.github/platforma-workflows/k8s_deploy.yaml@${{ needs.fetch_github_action_versions.outputs.k8s_deploy_version }}
-#   #   needs: 
-#   #     - build-container-image
-#   #   secrets:
-#   #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-#   #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-#   #   with:
-#   #     # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
-#   #     # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
-#   #     aws_region: "us-west-2" 
-#   #     service_name: ${{ github.event.repository.name }}
-#   #     namespace: "development"
-#   #     cluster_name: "dev-registry"
-
-
 name: CI/CD Development Environment
 on:
   push:
     branches:
       - feature/*
+      - main
+    tags:
+      - v*.*.*
 
 jobs:
-  # parse_metadata:
-  #   runs-on: ubuntu-latest
-
-  #   outputs:
-  #     image_builder: ${{ steps.image_builder_version.outputs.version }}
-  #     k8s_deploy: ${{ steps.k8s_deploy_version.outputs.version }}
-  #     ecr_registry_uri_us_west_2: ${{ steps.ecr_registry_uri_us_west_2.outputs.registry_uri }}
-
-  #   steps:
-  #     - name: set image_builder version
-  #       id: image_builder_version
-  #       run: |
-  #         echo "version=$(cat ./metadata/dev/metadata.json | jq -r '.github_actions.image_builder')"
-  #       shell: bash
-
-  #     - name: set k8s_deploy version
-  #       id: k8s_deploy_version
-  #       run: |
-  #         echo "version=$(cat ./metadata/dev/metadata.json | jq -r '.github_actions.k8s_deploy')"
-  #       shell: bash
-
-  #     - name: set ecr registry uri (us-west-2)
-  #       id: ecr_registry_uri_us_west_2
-  #       run: |
-  #         echo "registry_uri=$(cat ./metadata/dev/metadata.json | jq -r '.us_west_2')"
-  #       shell: bash
-  
-  #     - name: outputs
-  #       id: outputs
-  #       run: |
-  #         echo "image_builder_version : ${{ steps.image_builder_version.outputs.version }}"
-  #         echo "k8s_deploy_version : ${{ steps.k8s_deploy_version.outputs.version }}"
-  #         echo "ecr_registry_uri_us_west_2 : ${{ steps.k8s_deploy_version.outputs.registry_uri }}"
-  #       shell: bash
-
-  build-container-image:
-    #needs: parse_metadata
-    
-    uses: vinay-20/reusable_workflows/.github/workflows/image_builder.yaml@main
-    secrets:
-      aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-      aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-    with:
-      # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
-      # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
-      aws_region: "us-west-2"
-      #service_name: ${{ github.event.repository.name }}
-      service_name: "dev-okrs-api"
-      environment: "development"
-      ecr_registry: "${{ needs.parse_metadata.outputs.ecr_registry_uri_us_west_2 }}"
-      image_tag: "lkgb"
+  orchestrator:
+    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
 
   # kubernetes_deployment:
   #   uses: vinay-20/reusable_workflows/.github/platforma-workflows/k8s_deploy.yaml@${{ needs.fetch_github_action_versions.outputs.k8s_deploy_version }}
