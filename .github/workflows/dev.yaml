@@ -71,4 +71,3 @@ jobs:
   #     service_name: ${{ github.event.repository.name }}
   #     namespace: "development"
   #     cluster_name: "dev-registry"
-      
