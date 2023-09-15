@@ -20,6 +20,7 @@ jobs:
 
   orchestrator:
     uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    secrets: inherit
 
   # kubernetes_deployment:
   #   uses: vinay-20/reusable_workflows/.github/platforma-workflows/k8s_deploy.yaml@${{ needs.fetch_github_action_versions.outputs.k8s_deploy_version }}
