@@ -14,8 +14,8 @@ jobs:
     with:
       environment: "dev"
       region: "us_west_2"
-    if: ${{ github.ref_name == 'feature/*' }}
-  
+    if: startsWith(github.ref_name, 'feature')
+    
   staging:
     uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
     secrets: inherit
