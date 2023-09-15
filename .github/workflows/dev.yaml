@@ -13,6 +13,7 @@ jobs:
     secrets: inherit
     with:
       environment: "dev"
+      region: "us_west_2"
     if: startsWith(github.ref_name, 'feature/*')
   
   staging:
@@ -20,6 +21,7 @@ jobs:
     secrets: inherit
     with:
       environment: "stage"
+      region: "us_west_2"
     if: ${{ github.ref_name == 'main' }}
 
   production_us_west_2:
@@ -36,4 +38,3 @@ jobs:
   #   with:
   #     environment: "prod"
   #     region: "eu_central_1"
-  
