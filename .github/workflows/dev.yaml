@@ -8,31 +8,31 @@ on:
       - v*.*.*
 
 jobs:
-  outputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: outputs in demo-repo
-        run: |
-          echo "demoapp - ${{ secrets.AWS_ACCESS_KEY }}"
-          echo "demoapp - ${{ secrets.AWS_SECRET_KEY }}"
-          echo "demoapp - ${{ secrets.AWS_SESSION_TOKEN }}"
-        shell: bash
-
-  orchestrator:
+  development:
     uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
     secrets: inherit
+    with:
+      environment: "dev"
+    if: startsWith(github.ref_name, 'feature/*')
+  
+  staging:
+    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    secrets: inherit
+    with:
+      environment: "stage"
+    if: ${{ github.ref_name == 'main' }}
 
-  # kubernetes_deployment:
-  #   uses: vinay-20/reusable_workflows/.github/platforma-workflows/k8s_deploy.yaml@${{ needs.fetch_github_action_versions.outputs.k8s_deploy_version }}
-  #   needs: 
-  #     - build-container-image
-  #   secrets:
-  #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-  #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+  production_us_west_2:
+    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    secrets: inherit
+    with:
+      environment: "prod"
+      region: "us_west_2"
+    if: startsWith(github.event.ref, 'refs/tags/v')
+
+  # production_eu_central_1:
+  #   uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+  #   secrets: inherit
   #   with:
-  #     # limitation of github (https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
-  #     # Cannot propogate environment variables to different workflows, hence aws_region needs hard coding.
-  #     aws_region: "us-west-2" 
-  #     service_name: ${{ github.event.repository.name }}
-  #     namespace: "development"
-  #     cluster_name: "dev-registry"
+  #     environment: "prod"
+  #     region: "eu_central_1"
