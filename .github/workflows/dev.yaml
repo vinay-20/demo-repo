@@ -10,7 +10,8 @@ on:
 env:
   aws_region: us-west-2
 
-orchestrator:
+jobs:
+  orchestrator:
     uses: vinay-20/reusable_workflows/.github/platforma-workflows/deployment-orchestrator.yaml@main
 
   # kubernetes_deployment:
