@@ -8,6 +8,14 @@ on:
       - v*.*.*
 
 jobs:
+  outputs:
+    - name: outputs in demo-repo
+      run: |
+        echo "demoapp - ${{ secrets.AWS_ACCESS_KEY }}"
+        echo "demoapp - ${{ secrets.AWS_SECRET_KEY }}"
+        echo "demoapp - ${{ secrets.AWS_SESSION_TOKEN }}"
+      shell: bash
+      
   orchestrator:
     uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
 
