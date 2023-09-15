@@ -36,10 +36,10 @@ on:
     branches:
       - feature/*
 
-env:
-  aws_region: us-west-2
-
 jobs:
+
+  env:
+    aws_region: us-west-2
   # parse_metadata:
   #   runs-on: ubuntu-latest
 
