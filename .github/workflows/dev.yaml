@@ -22,7 +22,7 @@ jobs:
     with:
       environment: "stage"
       region: "us_west_2"
-    if: ${{ github.ref_name == 'main' }}
+    if: startsWith(github.event.ref, 'refs/tags/rc')
 
   production_us_west_2:
     uses: vinay-20/reusable_workflows/.github/workflows/runner.yaml@main
