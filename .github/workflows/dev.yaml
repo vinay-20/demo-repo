@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - feature/*
-      - main
     tags:
       - v*.*.*
+      - rc/*.*.*
 
 jobs:   
   development:
