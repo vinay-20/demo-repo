@@ -5,7 +5,7 @@ on:
       - feature/*
     tags:
       - v*.*.*
-      - rc/*.*.*
+      - rc_*.*.*
 
 jobs:   
   development:
