@@ -9,7 +9,7 @@ on:
 
 jobs:   
   development:
-    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    uses: vinay-20/reusable_workflows/.github/workflows/runner.yaml@main
     secrets: inherit
     with:
       environment: "dev"
@@ -17,7 +17,7 @@ jobs:
     if: startsWith(github.ref_name, 'feature')
     
   staging:
-    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    uses: vinay-20/reusable_workflows/.github/workflows/runner.yaml@main
     secrets: inherit
     with:
       environment: "stage"
@@ -25,7 +25,7 @@ jobs:
     if: ${{ github.ref_name == 'main' }}
 
   production_us_west_2:
-    uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
+    uses: vinay-20/reusable_workflows/.github/workflows/runner.yaml@main
     secrets: inherit
     with:
       environment: "prod"
