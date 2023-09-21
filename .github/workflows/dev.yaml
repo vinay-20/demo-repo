@@ -7,7 +7,7 @@ on:
     tags:
       - v*.*.*
 
-jobs:
+jobs:   
   development:
     uses: vinay-20/reusable_workflows/.github/workflows/deployment-orchestrator.yaml@main
     secrets: inherit
