@@ -15,7 +15,7 @@ jobs:
         run: |
           echo "Deployment env - staging"
         shell: bash
-    if: startsWith(github.event.ref, 'feature')
+    if: startsWith(github.ref_name, 'feature')
     
   staging:
     runs-on: ubuntu-latest
