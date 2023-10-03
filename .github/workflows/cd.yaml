@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: dev-dynamic-loader
         run: |
-          echo "Deployment env - staging"
+          echo "Deployment env - development"
         shell: bash
     if: startsWith(github.ref_name, 'feature')
     
