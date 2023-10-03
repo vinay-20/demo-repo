@@ -43,7 +43,7 @@ jobs:
             environment: prod-ap-southeast-2 # github environment
             image_name: "okrs-api"
 
-    uses: vinay-20/composite_actions/.github/workflows/cd@main
+    uses: vinay-20/composite_actions/.github/workflows/cd.yaml@main
     with:
       environment: ${{ matrix.environment }}
       region: ${{ matrix.region }}
