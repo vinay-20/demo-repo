@@ -9,42 +9,19 @@ on:
 
 jobs:   
   development:
-    runs-on: ubuntu-latest
-    steps:
-      - name: dev-dynamic-loader
-        run: |
-          echo "Deployment env - development"
-        shell: bash
-    if: startsWith(github.ref_name, 'feature')
-    
-  staging:
-    runs-on: ubuntu-latest
-    steps:
-      - name: stage-dynamic-loader
-        run: |
-          echo "Deployment environment - staging"
-        shell: bash
-    if: startsWith(github.event.ref, 'refs/tags/rc')
-
-  production:
-    strategy:
-      matrix:
-        include:
-          # Array of regions where service needs to be deployed.
-          - region: us-west-2
-            environment: prod-us-west-2 # github environment
-            image_name: "okrs-api"
-
-          - region: eu-central-1
-            environment: prod-eu-central-1 # github environment
-            image_name: "okrs-api"
-
-          - region: ap-southeast-2
-            environment: prod-ap-southeast-2 # github environment
-            image_name: "okrs-api"
-
-    uses: vinay-20/composite_actions/.github/workflows/cd.yaml@main
+    uses: pv-platforma/constantine/.github/workflows/runner.yaml@feat/oidc_metadata
+    secrets: 
+      code_artifact_access_key: "${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION_US_WEST_2 }}"
+      code_artifact_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION_US_WEST_2 }}
+      code_artifact_domain: ${{ secrets.AWS_CODEARTIFACT_DOMAIN_PRODUCTION_US_WEST_2 }}
+      code_artifact_owner: ${{ secrets.AWS_CODEARTIFACT_DOMAIN_OWNER_PRODUCTION_US_WEST_2 }}
+      aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID_DEVELOPMENT_US_WEST_2 }}
+      aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEVELOPMENT_US_WEST_2 }}
     with:
-      environment: ${{ matrix.environment }}
-      region: ${{ matrix.region }}
-    if: startsWith(github.event.ref, 'refs/tags/v') # release tag
+      environment: "dev" # github environment
+      region: "us-west-2"
+      ecr_registry: "486329218230.dkr.ecr.us-west-2.amazonaws.com"
+      k8s_namespace: "okrs"
+      image_name: "okrs-api"
+      k8s_cluster_name: "usw2-pf-dev"
+    if: startsWith(github.ref_name, 'feature')
