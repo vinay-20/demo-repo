@@ -16,36 +16,3 @@ jobs:
           echo "Deployment env - development"
         shell: bash
     if: startsWith(github.ref_name, 'feature')
-    
-  staging:
-    runs-on: ubuntu-latest
-    steps:
-      - name: stage-dynamic-loader
-        run: |
-          echo "Deployment environment - staging"
-        shell: bash
-    if: startsWith(github.event.ref, 'refs/tags/rc')
-
-  production:
-    strategy:
-      matrix:
-        include:
-          # Array of regions where service needs to be deployed.
-          - region: us-west-2
-            environment: prod-us-west-2 # github environment
-            image_name: "okrs-api"
-
-          - region: eu-central-1
-            environment: prod-eu-central-1 # github environment
-            image_name: "okrs-api"
-
-          - region: ap-southeast-2
-            environment: prod-ap-southeast-2 # github environment
-            image_name: "okrs-api"
-
-    uses: vinay-20/composite_actions/.github/workflows/cd.yaml@main
-    with:
-      environment: ${{ matrix.environment }}
-      region: ${{ matrix.region }}
-    if: startsWith(github.event.ref, 'refs/tags/v') # release tag
-    
