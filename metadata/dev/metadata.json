@@ -1,20 +1,22 @@
 {
 	"github_actions": {
-		"image_builder": "main",
-		"k8s_deploy": "main"
+		"runner": "v1",
+		"image_builder": "v1",
+		"k8s_deploy": "v1",
+		"ci": "v1"
 	},
 	"us_west_2": {
-		"k8s_cluster_name": "usw2pf-prod",
+		"k8s_cluster_name": "usw2pf-dev",
 		"k8s_namespace": "okrs-api",
 		"ecr_registry": "323341875315.dkr.ecr.us-west-2.amazonaws.com"
 	},
 	"eu_central_1": {
-		"k8s_cluster_name": "usw2pf-prod",
+		"k8s_cluster_name": "useupf-dev",
 		"k8s_namespace": "okrs-api",
 		"ecr_registry": "323341875315.dkr.ecr.eu-central-1.amazonaws.com"
 	},
 	"ap_southeast_1": {
-		"k8s_cluster_name": "usw2pf-prod",
+		"k8s_cluster_name": "usappf-dev",
 		"k8s_namespace": "okrs-api",
 		"ecr_registry": "323341875315.dkr.ecr.ap-southeast-1.amazonaws.com"
 	}
